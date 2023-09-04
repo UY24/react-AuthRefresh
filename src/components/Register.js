@@ -31,6 +31,7 @@ export const Register = () => {
         name,
         email,
         password,
+        confirmPassword,
       });
 
       navigate("/login");
