@@ -1,13 +1,27 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Register.css";
+import "./Register.css"; // Import your custom CSS for styling
 
 export const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState(false); // To track password match
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordMatch(newPassword === confirmPassword); // Check if passwords match
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const newConfirmPassword = e.target.value;
+    setConfirmPassword(newConfirmPassword);
+    setPasswordMatch(newConfirmPassword === password); // Check if passwords match
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -58,9 +72,24 @@ export const Register = () => {
             id="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             required
           />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            required
+          />
+          {/* Add password match indication */}
+          <div>
+            {passwordMatch ? "Passwords Match" : "Passwords Do Not Match"}
+          </div>
         </div>
         <button className="register-submit-button" type="submit">
           Submit
