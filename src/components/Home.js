@@ -9,7 +9,7 @@ export const Home = () => {
     useEffect(() => {
         (async () => {
             try {
-                const {data} = await axios.get('user');
+                const {data} = await axios.get('user-profile');
 
                 setName(data.name);
             } catch (e) {
@@ -19,7 +19,7 @@ export const Home = () => {
     }, []);
 
     const logout = async () => {
-        await axios.post('logout', {}, {withCredentials: true});
+        await axios.post('logout', {});
 
         setNavigate(true);
     }

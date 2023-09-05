@@ -10,9 +10,8 @@ export const Login = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-
     try {
-      const { data } = await axios.post(
+      const data = await axios.post(
         "login",
         {
           email,
@@ -23,7 +22,7 @@ export const Login = () => {
 
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${data["token"]}`;
+      ] = `Bearer ${data["data"]["access_token"]}`;
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);

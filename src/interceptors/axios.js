@@ -1,21 +1,28 @@
 import axios from "axios";
-
-axios.defaults.baseURL = 'http://localhost:3000/api/';
-
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 let refresh = false;
 
-axios.interceptors.response.use(resp => resp, async error => {
+axios.interceptors.response.use(
+  (resp) => resp,
+  async (error) => {
     if (error.response.status === 401 && !refresh) {
-        refresh = true;
+      refresh = true;
 
-        const response = await axios.post('refresh', {}, {withCredentials: true});
+      const response = await axios.post(
+        "refresh",
+        {},
+        { withCredentials: true }
+      );
 
-        if (response.status === 200) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['token']}`;
+      if (response.status === 200) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data["access_token"]}`;
 
-            return axios(error.config);
-        }
+        return axios(error.config);
+      }
     }
     refresh = false;
     return error;
-});
+  }
+);

@@ -30,8 +30,7 @@ export const Register = () => {
       await axios.post("register", {
         name,
         email,
-        password,
-        confirmPassword,
+        password
       });
 
       navigate("/login");
