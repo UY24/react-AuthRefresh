@@ -11,7 +11,7 @@ axios.interceptors.response.use(
       const response = await axios.post(
         "refresh",
         {},
-        { withCredentials: true }
+        // { withCredentials: true }
       );
 
       if (response.status === 200) {

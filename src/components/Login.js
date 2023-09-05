@@ -17,7 +17,7 @@ export const Login = () => {
           email,
           password,
         },
-        { withCredentials: true }
+        // { withCredentials: true }
       );
 
       axios.defaults.headers.common[
