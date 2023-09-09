@@ -9,7 +9,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState(""); // New phone state
+  const [phone, setPhone] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(false);
 
   const handlePasswordChange = (e) => {
@@ -24,15 +24,45 @@ const Register = () => {
     setPasswordMatch(newConfirmPassword === password);
   };
 
+  const handlePhoneChange = (e) => {
+    const newPhone = e.target.value;
+    setPhone(newPhone);
+  };
+
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isPhoneValid = (phone) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const isFormValid = () => {
+    return (
+      name.trim() !== "" &&
+      isEmailValid(email) &&
+      isPhoneValid(phone) &&
+      password.trim() !== "" &&
+      confirmPassword.trim() !== "" &&
+      passwordMatch
+    );
+  };
+
   const submit = async (e) => {
     e.preventDefault();
+
+    if (!isFormValid()) {
+      return;
+    }
 
     try {
       await axios.post("register", {
         name,
         email,
         password,
-        phone, // Include phone in the registration data
+        // phone,
       });
 
       navigate("/login");
@@ -45,7 +75,7 @@ const Register = () => {
     <div className="register-container">
       <h1 className="register-heading">Please Register</h1>
       <form className="register-form" onSubmit={submit}>
-        <div className="form-group">
+        <div className={`form-group ${!isFormValid() ? "error" : ""}`}>
           <label htmlFor="name">Name</label>
           <input
             type="text"
@@ -56,7 +86,7 @@ const Register = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className={`form-group ${!isEmailValid(email) ? "error" : ""}`}>
           <label htmlFor="email">Email Address</label>
           <input
             type="email"
@@ -67,18 +97,18 @@ const Register = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className={`form-group ${!isPhoneValid(phone) ? "error" : ""}`}>
           <label htmlFor="phone">Phone Number</label>
           <input
             type="tel"
             id="phone"
-            placeholder="123-456-7890"
+            placeholder="Enter Phone Number"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handlePhoneChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className={`form-group ${!passwordMatch ? "error" : ""}`}>
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -89,7 +119,7 @@ const Register = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className={`form-group ${!passwordMatch ? "error" : ""}`}>
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
@@ -100,13 +130,14 @@ const Register = () => {
             required
           />
           <div className="password-match-indicator">
-            {passwordMatch ? "Password Match" : "Password Do Not Match"}
+            {passwordMatch ? "Passwords Match" : "Passwords Do Not Match"}
           </div>
         </div>
         <button
           className="register-submit-button"
           type="submit"
-          disabled={!passwordMatch} // Disable the button if passwords don't match
+          disabled={!isFormValid()}
+          title={!isFormValid() ? "Form is incomplete or invalid" : ""}
         >
           Submit
         </button>
