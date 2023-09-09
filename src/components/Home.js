@@ -1,8 +1,9 @@
+import React from 'react'
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Navigate} from "react-router-dom";
 
-export const Home = () => {
+const Home = () => {
     const [name, setName] = useState('');
     const [navigate, setNavigate] = useState(false);
 
@@ -36,3 +37,5 @@ export const Home = () => {
         >Logout</a>
     </div>
 }
+
+export default Home

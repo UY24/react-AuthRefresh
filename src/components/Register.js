@@ -1,26 +1,27 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Register.css"; // Import your custom CSS for styling
 
-export const Register = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordMatch, setPasswordMatch] = useState(false); // To track password match
+  const [phone, setPhone] = useState(""); // New phone state
+  const [passwordMatch, setPasswordMatch] = useState(false);
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-    setPasswordMatch(newPassword === confirmPassword); // Check if passwords match
+    setPasswordMatch(newPassword === confirmPassword);
   };
 
   const handleConfirmPasswordChange = (e) => {
     const newConfirmPassword = e.target.value;
     setConfirmPassword(newConfirmPassword);
-    setPasswordMatch(newConfirmPassword === password); // Check if passwords match
+    setPasswordMatch(newConfirmPassword === password);
   };
 
   const submit = async (e) => {
@@ -30,7 +31,8 @@ export const Register = () => {
       await axios.post("register", {
         name,
         email,
-        password
+        password,
+        phone, // Include phone in the registration data
       });
 
       navigate("/login");
@@ -66,6 +68,17 @@ export const Register = () => {
           />
         </div>
         <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="123-456-7890"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -86,15 +99,20 @@ export const Register = () => {
             onChange={handleConfirmPasswordChange}
             required
           />
-          {/* Add password match indication */}
-          <div>
-            {passwordMatch ? "Passwords Match" : "Passwords Do Not Match"}
+          <div className="password-match-indicator">
+            {passwordMatch ? "Password Match" : "Password Do Not Match"}
           </div>
         </div>
-        <button className="register-submit-button" type="submit">
+        <button
+          className="register-submit-button"
+          type="submit"
+          disabled={!passwordMatch} // Disable the button if passwords don't match
+        >
           Submit
         </button>
       </form>
     </div>
   );
 };
+
+export default Register;

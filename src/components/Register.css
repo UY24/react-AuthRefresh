@@ -1,6 +1,7 @@
+/* Register.css */
 .register-container {
     max-width: 400px;
-    margin: 5rem auto;
+    margin: 0 auto;
     padding: 30px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -35,12 +36,22 @@ label {
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="tel"] {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.password-match-indicator {
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    color: #555;
 }
 
 .register-submit-button {
@@ -56,4 +67,36 @@ input[type="password"] {
 
 .register-submit-button:hover {
     background-color: #0056b3;
+}
+
+/* Disabled Button and Tooltip */
+.register-submit-button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.register-submit-button[disabled]:hover {
+    background-color: #ccc;
+}
+
+.register-submit-button[disabled]:before {
+    content: attr(title);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #555;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.register-submit-button[disabled]:hover:before {
+    visibility: visible;
+    opacity: 1;
 }

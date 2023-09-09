@@ -1,9 +1,10 @@
+import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-export const Login = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +18,8 @@ export const Login = () => {
           email,
           password,
         },
-        // { withCredentials: true }
+        { withCredentials: true },
+        { crossOrigin: true }
       );
 
       axios.defaults.headers.common[
@@ -62,3 +64,5 @@ export const Login = () => {
     </div>
   );
 };
+
+export default Login;
