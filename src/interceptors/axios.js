@@ -10,8 +10,8 @@ axios.interceptors.response.use(
 
       const response = await axios.post(
         "refresh",
-        // { withCredentials: true },
-        // { crossOrigin: true }
+        { withCredentials: true },
+        { crossOrigin: true }
       );
 
       if (response.status === 200) {

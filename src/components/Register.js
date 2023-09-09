@@ -9,7 +9,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone_no, setPhone] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(false);
 
   const handlePasswordChange = (e) => {
@@ -43,7 +43,7 @@ const Register = () => {
     return (
       name.trim() !== "" &&
       isEmailValid(email) &&
-      isPhoneValid(phone) &&
+      isPhoneValid(phone_no) &&
       password.trim() !== "" &&
       confirmPassword.trim() !== "" &&
       passwordMatch
@@ -62,7 +62,7 @@ const Register = () => {
         name,
         email,
         password,
-        // phone,
+        phone_no,
       });
 
       navigate("/login");
@@ -97,13 +97,13 @@ const Register = () => {
             required
           />
         </div>
-        <div className={`form-group ${!isPhoneValid(phone) ? "error" : ""}`}>
-          <label htmlFor="phone">Phone Number</label>
+        <div className={`form-group ${!isPhoneValid(phone_no) ? "error" : ""}`}>
+          <label htmlFor="phone_no">Phone Number</label>
           <input
             type="tel"
-            id="phone"
+            id="phone_no"
             placeholder="Enter Phone Number"
-            value={phone}
+            value={phone_no}
             onChange={handlePhoneChange}
             required
           />

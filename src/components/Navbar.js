@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
@@ -7,15 +8,14 @@ const Navbar = () => {
   const isLoggedIn =
     location.pathname !== "/login" && location.pathname !== "/register";
 
-  const handleLogout = () => {
-    // Implement your logout logic here
-    // For example, you can clear user session or remove authentication tokens
-
-    // Assuming you're using localStorage for storing authentication tokens
-    localStorage.removeItem("authToken");
-
-    // Redirect the user to the login page after logout
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      const ans = await axios.post("logout");
+      console.log(ans);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (

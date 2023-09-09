@@ -1,41 +1,33 @@
-import React from 'react'
-import {useEffect, useState} from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Home = () => {
-    const [name, setName] = useState('');
-    const [navigate, setNavigate] = useState(false);
+  const [email, setName] = useState("");
+  const [navigate, setNavigate] = useState(false);
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const {data} = await axios.get('user-profile');
-
-                setName(data.name);
-            } catch (e) {
-                setNavigate(true);
-            }
-        })();
-    }, []);
-
-    const logout = async () => {
-        await axios.post('logout', {});
-
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get("user-profile");
+        // console.log(data);
+        setName(data.email);
+      } catch (e) {
         setNavigate(true);
-    }
+      }
+    })();
+  }, []);
 
-    if (navigate) {
-        return <Navigate to="/login"/>;
-    }
+  if (navigate) {
+    return <Navigate to="/login" />;
+  }
 
-    return <div className="form-signin mt-5 text-center">
-        <h3>Hi {name}</h3>
-
-        <a href="javascript:void(0)" className="btn btn-lg btn-primary"
-           onClick={logout}
-        >Logout</a>
+  return (
+    <div className="form-signin mt-5 text-center">
+      <h3>Hi {email}</h3>
     </div>
-}
+  );
+};
 
-export default Home
+export default Home;
